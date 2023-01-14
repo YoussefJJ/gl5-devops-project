@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=twitter_db
+      - APP_DB_USER=docker
+      - APP_DB_PASS=docker
+      - APP_DB_NAME=twitter_db
+    ports:
+      - '5432:5432'
+    volumes: 
+      - postgres:/data/postgres
+      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - network
+  auth-service:
+    depends_on:
+      - postgres
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DATABASE_URL=$DATABASE_URL
+      - JWT_SECRET=$JWT_SECRET
+    stdin_open: true
+    tty: true
+    networks:
+      - network
+volumes:
+  postgres:
+networks:
+  network:
+    driver: bridge
+    name: tweet_network

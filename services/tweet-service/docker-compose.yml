@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  tweet-service:
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DATABASE_URL=$DATABASE_URL
+    stdin_open: true
+    tty: true
+    networks:
+      - my-app
+networks:
+  my-app:
+    name: tweet_network
+    external: true
