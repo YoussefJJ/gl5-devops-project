@@ -9,7 +9,7 @@ import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
 const options = {
   serviceName: 'auth-service', // optional
   // You can use the default UDPSender
-  host: 'localhost', // optional
+  host: process.env.JAEGER_HOST, // optional
   port: 6832, // optional
   // OR you can use the HTTPSender as follows
   // endpoint: 'http://localhost:14268/api/traces',
