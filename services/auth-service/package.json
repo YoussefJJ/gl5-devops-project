@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node --require ./src/util/tracer.ts src/index.ts",
+    "start": "prisma dev migrate && ts-node --require ./src/util/tracer.ts src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
