@@ -14,8 +14,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./auth-service
-          file: ./auth-service/Dockerfile
+          context: ./services/auth-service
+          file: ./services/auth-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/twitter-clone-auth-service_v2:${{ github.sha }}
           cache-from: type=registry,ref=$DOCKER_USERNAME/auth-service_v2:latest
@@ -36,8 +36,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./tweet-service
-          file: ./tweet-service/Dockerfile
+          context: ./services/tweet-service
+          file: ./services/tweet-service/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/twitter-clone-tweet-service_v2:${{ github.sha }}
           cache-from: type=registry,ref=$DOCKER_USERNAME/tweet-service_v2:latest
