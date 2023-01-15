@@ -17,7 +17,7 @@ const options = {
   maxPacketSize: 65000 // optional
 }
 const exporterOptions = {
-  url: `http://${process.env.OTLP_HOST}:4318/v1/traces`
+  url: `${process.env.OTEL_EXPORTER_OTLP_ENDPOINT}/v1/traces`
 }
 
 const exporter = new OTLPTraceExporter(exporterOptions);
