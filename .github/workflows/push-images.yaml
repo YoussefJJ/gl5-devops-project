@@ -2,7 +2,7 @@ name: CI/CD
 on:
   [push]
 jobs:
-  - auth_service:
+  auth_service:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
             VERSION=${{ github.sha }}
             BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
             VCS_REF=${{ github.sha }} 
-  - user_service:
+  user_service:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
