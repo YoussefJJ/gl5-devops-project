@@ -1,0 +1,10 @@
+auth_service:
+  image:
+    name: youssefjj/twitter-clone-auth-service_v2
+    tag: latest
+  replicas: 2
+tweet_service:
+  image:
+    name: youssefjj/twitter-clone-tweet-service_v2
+    tag: latest
+  replicas: 2

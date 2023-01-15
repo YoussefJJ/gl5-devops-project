@@ -1,0 +1,4 @@
+apiVersion: v2
+name: twitter-clone
+version: 0.1.0
+description: Twitter Clone API Helm Chart
