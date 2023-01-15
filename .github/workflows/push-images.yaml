@@ -1,0 +1,48 @@
+name: CI/CD
+on:
+  [push]
+jobs:
+  - auth-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./auth-service
+          file: ./auth-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/twitter-clone-auth-service_v2:${{ github.sha }}
+          cache-from: type=registry,ref=$DOCKER_USERNAME/auth-service_v2:latest
+          cache-to: type=inline
+          build-args: |
+            VERSION=${{ github.sha }}
+            BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+            VCS_REF=${{ github.sha }} 
+  - user-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./tweet-service
+          file: ./tweet-service/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/twitter-clone-tweet-service_v2:${{ github.sha }}
+          cache-from: type=registry,ref=$DOCKER_USERNAME/tweet-service_v2:latest
+          cache-to: type=inline
+          build-args: |
+            VERSION=${{ github.sha }}
+            BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+            VCS_REF=${{ github.sha }}    
