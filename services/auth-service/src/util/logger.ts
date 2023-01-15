@@ -8,7 +8,7 @@ export const logger = createLogger({
         format.json(),
     ),
     transports: [
-      new transports.File({ filename: `../logs/auth.log` }),
+      new transports.File({ filename: `./logs/auth.log` }),
       new transports.Console(),
     ],
 });
