@@ -17,7 +17,7 @@ jobs:
           context: ./services/auth-service
           file: ./services/auth-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/twitter-clone-auth-service_v2:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/twitter-clone-auth-service_v2:latest
           cache-from: type=registry,ref=$DOCKER_USERNAME/auth-service_v2:latest
           cache-to: type=inline
           build-args: |
@@ -39,7 +39,7 @@ jobs:
           context: ./services/tweet-service
           file: ./services/tweet-service/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/twitter-clone-tweet-service_v2:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/twitter-clone-tweet-service_v2:latest
           cache-from: type=registry,ref=$DOCKER_USERNAME/tweet-service_v2:latest
           cache-to: type=inline
           build-args: |
