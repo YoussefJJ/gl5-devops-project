@@ -9,7 +9,7 @@ export const logger = createLogger({
         format.json(),
     ),
     transports: [
-      new transports.File({ filename: `../logs/tweet.log` }),
+      new transports.File({ filename: `./logs/tweet.log` }),
       new transports.Console(),
     ],
 });
