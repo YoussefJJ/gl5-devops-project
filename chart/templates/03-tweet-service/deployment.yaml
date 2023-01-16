@@ -46,4 +46,4 @@ spec:
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
             value: http://$(HOST_IP):4318
           - name: OTEL_SERVICE_NAME
-            value: "auth_service"
+            value: "tweet_service"
