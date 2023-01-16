@@ -45,6 +45,6 @@ spec:
               fieldRef:
                 fieldPath: status.hostIP
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
-            value: http://${HOST_IP}:4317
+            value: http://$(HOST_IP):4317
           - name: OTEL_SERVICE_NAME
             value: "auth_service"   
