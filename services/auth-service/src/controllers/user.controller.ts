@@ -11,10 +11,9 @@ const prisma = new PrismaClient()
 const childLogger = logger.child({ service: 'auth-service'});
 
 export const createUser = async (req: Request, res: Response) => {
-    httpCounter.inc({ method: req.method, path: req.path });
+    httpCounter.inc({ method: req.method, path: req.path, ip: req.ip });
     registerTotalCounter.inc();
-
-    childLogger.info('Creating user', { request_id: req.headers['x-request-id']});
+    childLogger.info('Creating user', { request_id: req.headers['x-request-id'], request_ip: req.ip});
 
     const { email, password, name } = req.body;
     if (!email || !password || !name) {
@@ -26,7 +25,7 @@ export const createUser = async (req: Request, res: Response) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        childLogger.info('Hashed password', { request_id: req.headers['x-request-id']});
+        childLogger.info('Hashed password', { request_id: req.headers['x-request-id'], request_ip: req.ip});
 
         // find if exists
         const userExists = await prisma.user.findUnique({
@@ -35,10 +34,10 @@ export const createUser = async (req: Request, res: Response) => {
             }
         });
         if (userExists) {
-            childLogger.error('User already exists', { request_id: req.headers['x-request-id']});
+            childLogger.error('User already exists', { request_id: req.headers['x-request-id'], request_ip: req.ip});
             return res.status(400).send({ error: 'User already exists' });
         }
-        childLogger.info('Creating user', { request_id: req.headers['x-request-id']});
+        childLogger.info('Creating user', { request_id: req.headers['x-request-id'], request_ip: req.ip});
         const user = await prisma.user.create({
             data: {
                 email,
@@ -50,7 +49,7 @@ export const createUser = async (req: Request, res: Response) => {
         delete user.password;
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
-        childLogger.info('User created', { request_id: req.headers['x-request-id']});
+        childLogger.info('User created', { request_id: req.headers['x-request-id'], request_ip: req.ip});
 
         res.status(201).send({
             data: user,
@@ -58,20 +57,20 @@ export const createUser = async (req: Request, res: Response) => {
         });
         registerSuccessCounter.inc();
     } catch (err) {
-        childLogger.error('Error creating user', { request_id: req.headers['x-request-id']});
+        childLogger.error('Error creating user', { request_id: req.headers['x-request-id'], request_ip: req.ip});
         res.status(400).send({ error: err.message });
     }
 }
 
 export const loginUser = async (req: Request, res: Response) => {
-    childLogger.info('Logging in user', { request_id: req.headers['x-request-id']});
+    childLogger.info('Logging in user', { request_id: req.headers['x-request-id'], request_ip: req.ip});
 
     httpCounter.inc({ method: req.method, path: req.path });
-    loginTotalCounter.inc();
+    loginTotalCounter.inc({ ip: req.ip });
     
     const { email, password } = req.body;
     if (!email || !password) {
-        childLogger.error('Email and password are required', { request_id: req.headers['x-request-id']});
+        childLogger.error('Email and password are required', { request_id: req.headers['x-request-id'], request_ip: req.ip});
         return res.status(400).send({ error: 'Email and password are required' });
     }
     try {
@@ -81,12 +80,12 @@ export const loginUser = async (req: Request, res: Response) => {
             }
         });
         if (!user) {
-            childLogger.error('Invalid email or password', { request_id: req.headers['x-request-id']});
+            childLogger.error('Invalid email or password', { request_id: req.headers['x-request-id'], request_ip: req.ip});
             return res.status(400).send({ error: 'Invalid email or password' });
         }
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            childLogger.error('Invalid email or password', { request_id: req.headers['x-request-id']});
+            childLogger.error('Invalid email or password', { request_id: req.headers['x-request-id'], request_ip: req.ip});
             return res.status(400).send({ error: 'Invalid email or password' });
         }
         // remove password from response
@@ -97,35 +96,35 @@ export const loginUser = async (req: Request, res: Response) => {
             token
         });
 
-        childLogger.info('User logged in', { request_id: req.headers['x-request-id']});
+        childLogger.info('User logged in', { request_id: req.headers['x-request-id'], request_ip: req.ip});
         
-        loginSuccessCounter.inc();
+        loginSuccessCounter.inc({ ip: req.ip });
     } catch (err) {
-        childLogger.error(err.message, { request_id: req.headers['x-request-id']});
+        childLogger.error(err.message, { request_id: req.headers['x-request-id'], request_ip: req.ip});
         res.status(400).send({ error: err.message });
     }
 }
 
 export const validateToken = async (req: Request, res: Response) => {
-    childLogger.info('Validating token', { request_id: req.headers['x-request-id']});
+    childLogger.info('Validating token', { request_id: req.headers['x-request-id'], request_ip: req.ip});
     
     httpCounter.inc({ method: req.method, path: req.path });
     validateTokenTotalCounter.inc();
     
     const token = req.headers.authorization;
     if (!token) {
-        childLogger.error('Token is required', { request_id: req.headers['x-request-id']});
+        childLogger.error('Token is required', { request_id: req.headers['x-request-id'], request_ip: req.ip});
         return res.status(400).send({ error: 'Token is required' });
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         res.status(200).send(decoded);
         
-        childLogger.info('Token validated', { request_id: req.headers['x-request-id']});
+        childLogger.info('Token validated', { request_id: req.headers['x-request-id'], request_ip: req.ip});
         
         validateTokenSuccessCounter.inc();
     } catch (err) {
-        childLogger.error(err.message, { request_id: req.headers['x-request-id']});
+        childLogger.error(err.message, { request_id: req.headers['x-request-id'], request_ip: req.ip});
         res.status(400).send({ error: err.message });
     }
 }

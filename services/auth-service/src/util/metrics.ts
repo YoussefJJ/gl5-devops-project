@@ -7,7 +7,7 @@ collectDefaultMetrics({ register });
 export const httpCounter = new promClient.Counter({
     name: 'auth_service_counter',
     help: 'auth_service_counter',
-    labelNames: ['method', 'path'],
+    labelNames: ['method', 'path', 'ip'],
     registers: [register]
 });
 
@@ -26,12 +26,14 @@ export const registerTotalCounter = new promClient.Counter({
 export const loginSuccessCounter = new promClient.Counter({
     name: 'auth_service_login_success_counter',
     help: 'auth_service_login_success_counter',
+    labelNames: ['ip'],
     registers: [register]
 });
 
 export const loginTotalCounter = new promClient.Counter({
     name: 'auth_service_login_total_counter',
     help: 'auth_service_login_total_counter',
+    labelNames: ['ip'],
     registers: [register]
 });
 
