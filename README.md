@@ -15,7 +15,7 @@ The application is composed of 2 microservices: An authentication service and a 
 ## Infrastructure
 Each service infrastructure is composed of Service that allows communication inside the cluster with each a deployment that controls the lifecycle of the pods. To configure each service, we pass parameters as environment variables such as the ports, service names and observability endpoints for
 Tracing and Logging.
-I packaged the application in a Helm Chart and deployed it in a remote repository. 
+I packaged the application in a Helm Chart and deployed it in a remote repository.
 
 You can find more information about the helm chart [here](./chart/).
 
@@ -34,6 +34,8 @@ To automate the deployment of the application inside an Azure Kubernetes Cluster
 More informations can be found about the stacks [here](./terraform/)
 
 ![Microstacks](./assets/MicroStacks.png)
+
+For changes in code I applied a CI workflow using Github Actions that builds the Docker Images through each service's Dockerfile and push these images to the Docker Hub where in turn they will be used by the Helm Chart.
 
 # Observability
 In this part, we test how our systems works by observing what the services expose such as metrics, logs and traces.
