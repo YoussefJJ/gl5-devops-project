@@ -74,7 +74,7 @@ $ curl -X POST http://20.85.249.217/tweet -H "Authorization: <TOKEN>" -d '{"text
     "text": "Some tweet"
 }
 ```
-Return HTTP Status Code **200**
+Return HTTP Status Code **201**
 ```json
 // Example:
 {
@@ -172,7 +172,7 @@ Retweet a post
 ```console
 $ curl -X POST http://20.85.249.217/retweet -H "Authorization: <TOKEN>"
 ```
-Return HTTP Status Code **200**
+Return HTTP Status Code **201**
 ```json
 // Response Body Example
 {   
