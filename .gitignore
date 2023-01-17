@@ -4,4 +4,3 @@ db
 logs
 *.tfvars
 .terraform
-*.hcl
