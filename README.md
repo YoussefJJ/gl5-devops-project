@@ -9,6 +9,8 @@ This is an academic project that consists of implementing an infrastructure usin
 The application is a Twitter clone API, made with Express, that allows to send tweets and retweet an existing tweet.
 The application is composed of 2 microservices: An authentication service and a tweet service, each interrogating and storing data inside a PostgreSQL database.
 
+More informations about the microservices and the endpoints it exposes can be found [here](./services/README.md)
+
 ![Microservices](./assets/Microservices.png)
 
 # Deployment
@@ -17,7 +19,7 @@ Each service infrastructure is composed of Service that allows communication ins
 Tracing and Logging.
 I packaged the application in a Helm Chart and deployed it in a remote repository.
 
-You can find more information about the helm chart [here](./chart/).
+You can find more information about the helm chart [here](./chart/README.md).
 
 ![Infrastructure](./assets/Archi-DevOps.png)
 
@@ -31,7 +33,7 @@ To automate the deployment of the application inside an Azure Kubernetes Cluster
 3. Application Deployment (microservices and ingress controller)
 4. Observability tools Deployment
 
-More informations can be found about the stacks [here](./terraform/)
+More informations can be found about the stacks [here](./terraform/README.md)
 
 ![Microstacks](./assets/MicroStacks.png)
 

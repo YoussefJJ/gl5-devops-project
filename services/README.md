@@ -200,4 +200,4 @@ Return **200**
     "tweetId": 1,
 }
 ```
-Return HTTP Status Code **200**
+Return HTTP Status Code **400** in case of error
