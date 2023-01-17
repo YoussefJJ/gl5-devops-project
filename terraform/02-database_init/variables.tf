@@ -7,11 +7,11 @@ variable "db_name" {
 }
 
 variable "db_user" {
-  description = "Name of the database"
+  description = "username of the database"
 }
 
 variable "db_password" {
-  description = "Name of the database"
+  description = "the user's password"
 }
 
 variable "db_replicas" {
