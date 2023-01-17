@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: twitter_db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: root
+  POSTGRES_INIT_SCRIPT: |
+    CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "name" TEXT,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE "Tweet" (
+    "id" SERIAL NOT NULL,
+    "content" TEXT,
+    "published" BOOLEAN NOT NULL DEFAULT false,
+    "authorId" INTEGER NOT NULL,
+
+    CONSTRAINT "Tweet_pkey" PRIMARY KEY ("id")
+    );
+
+    CREATE TABLE "Retweet" (
+        "id" SERIAL NOT NULL,
+        "content" TEXT,
+        "published" BOOLEAN NOT NULL DEFAULT false,
+        "authorId" INTEGER NOT NULL,
+        "tweetId" INTEGER NOT NULL,
+
+        CONSTRAINT "Retweet_pkey" PRIMARY KEY ("id")
+    );
+
+    CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+    ALTER TABLE "Tweet" ADD CONSTRAINT "Tweet_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+    ALTER TABLE "Retweet" ADD CONSTRAINT "Retweet_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+    ALTER TABLE "Retweet" ADD CONSTRAINT "Retweet_tweetId_fkey" FOREIGN KEY ("tweetId") REFERENCES "Tweet"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
