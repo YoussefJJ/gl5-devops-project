@@ -58,3 +58,9 @@ For log collection, DataDog was the primary choice as it allowed an intuitive Us
 By far the most challenging task, it required setting up a tracing process and an Exported inside our NodeJS applications. At first, I opted to use Jaeger for tracing collection and although it was able to do so locally, I was unable to deploy it to the cluster and access the traces data from there. By Consequence, I opted for DataDog as it was natively adapted for such task and the agent was aleady deployed for log collection. It just required an additional configuration and I was good to go.
 
 ![DataDog Traces UI](./assets/Traces.png)
+
+# Contibuting
+This project is part of an academic course. Any Pull Requests are welcome.
+
+# License
+This project is licensed under the MIT license.
