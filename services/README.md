@@ -4,6 +4,8 @@ The application allows us to register accounts (basic info for demo purposes: us
 
 The general idea is to allow access to resources only if the user is authenticated (validating his access token). The verification is established through the JWT Standard.
 
+![Microservices Diagram](../assets/Microservices.png)
+
 # Microservices
 The application is composed of 2 microservices:
 ## 1 - Authentication Service
